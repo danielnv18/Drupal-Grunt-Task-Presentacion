@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Drupal Grunt Task - Drupal Camp Costa Rica 2015</title>
+
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Daniel Noyola">
+
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/paralleldevs.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement( 'link' );
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName( 'head' )[0].appendChild( link );
+	</script>
+
+	<!--[if lt IE 9]>
+	<script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+	<!-- Any section element inside of this container is displayed as a slide -->
+	<div class="slides">
+
+		<a class="logo" style="position: fixed;
+    bottom: 5px;
+    left: 5px;" href="http://paralleldevs.com"> <img src="/img/paralleldev_logo_darkbackground.png" alt="ParallelDevs Logo"></a>
+		
+		<section>
+			<section>
+				<h1>Drupal Grunt Task</h1>
+				<h3>Contruir y probar Drupal usando Grunt</h3>
+				<p>Drupal Camp Costa Rica 2015</p>
+				<aside class="notes">
+					Cuantos han usado grunt antes?<br>
+					Quienes lo usan diariamente
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quien Soy?</h2>
+				<ul>
+					<li>
+						Daniel Noyola
+						<ul>
+							<li><b>Correo:</b> d.noyola@paralleldevs.com</li>
+							<li><b>Github:</b>  danielnv18</li>
+							<li><b>Twitter:</b> @danielnv18</li>
+						</ul>
+					</li>
+					<li>Full Stack Developer</li>
+				</ul>
+				<img style="background: none; border: none" src="/img/paralleldevs-logo-fondo-negro.png" alt="">
+			</section>
+		</section>
+
+		<!--Contruir y Probar Drupal-->
+		<section>
+			<section>
+				<h2>Construyendo Drupal</h2>
+				<aside class="notes">
+					Drupal realmente necesita una herramienta de contruccion
+				</aside>
+			</section>
+			<section>
+				<h2>Desarrollo en Drupal</h2>
+				<div class="fragment">Enfoque: instale y ejecute</div>
+				<p class="fragment">
+					<span>Descargar e instalar</span> <span>-></span>
+					<span>Agregar codigo</span> <span>-></span>
+					<span>Subir al servidor</span>
+				</p>
+				<div class="fragment">Enfoque: Contruya y pruebe</div>
+				<p class="fragment">
+					<span>Drush Make</span> <span>-></span>
+					<span>Codigo</span> <span>-></span>
+					<span>Confirmar codigo</span> <span>-></span>
+					<span>Compilar Sass</span> <span>-></span>
+					<span>Ejecutar Behat</span> <span>-></span>
+					<span>git commit</span>
+
+				</p>
+				<aside class="notes">
+					<p>Nuestra practicas de desarrollo han evolucionado. Mas herramientas complementarias.</p>
+					<p>Cada herramienta agrega complejidad.</p>
+					<p>No hay nada malo con el primer enfoque pero podriamos hacerlo mejor.</p>
+
+				</aside>
+			</section>
+
+			<section>
+				<h2>Porque Contruir Drupal?</h2>
+				<ol>
+					<li class="fragment">Drush make</li>
+					<li class="fragment">Dejamos de mezclar el codigo contribuido/core y codigo custom.</li>
+					<li class="fragment">Tenemos control de nuestras dependecias.</li>
+					<li class="fragment">Una manera simplificada de librerias y recursos.</li>
+					<li class="fragment">Reforzar la idea de automatizar.</li>
+				</ol>
+				<aside class="notes">
+					<ul>
+						<li>Crear un forma mas consistente de unir las piezas</li>
+						<li>El archivo make hace mas claro las dependencias del projecto</li>
+						<li>No solo usamos recursos de Drupal sino librerias de jquery etc</li>
+						<li>Es el mismo proceso, no importa quien lo haga</li>
+					</ul>
+				</aside>
+			</section>
+			<section>
+				<h2>Porque Probar Drupal?</h2>
+				<ol>
+					<li class="fragment">Sitios complejos necesitan ser probamos mas alla de uns cuantos clicks.</li>
+					<li class="fragment">Empoderar a los desarrolladores para producir codigo de calidad.</li>
+					<li class="fragment">Encontrar errores en el codigo antes de integrarlo.</li>
+				</ol>
+				<aside class="notes">
+					<ol>
+						<li>No gastar mucho tiempo</li>
+						<li>Parte del cotigo sea consistente</li>
+						<li>Es mas facil arreglar codigo cuando aun estan en las masnos del desarrollador original</li>
+					</ol>
+				</aside>
+			</section>
+			<section>
+				<h2>Surgen Preguntas</h2>
+				<ol>
+					<li class="fragment">Como nos aseguramos que todos usan la mismas herramientas en la misma manera?</li>
+					<li class="fragment">Como separamos nuestro codigo fuente de las dependencias y crear un output corecto?</li>
+				</ol>
+				<aside class="notes">
+					<ol>
+						<li>Readme archivo con extensas intrucciones que solo se hace mas largo</li>
+						<li>Separar las dependencias de drupal core, contrib</li>
+					</ol>
+				</aside>
+			</section>
+		</section>
+
+		<!-- Intro -->
+		<section>
+			<section>
+				<h2>Grunt</h2>
+			</section>
+			<section>
+				<h2>Porque Grunt?</h2>
+				<ul>
+					<li class="fragment">Es un ejecutador de tareas basado en javascript</li>
+					<li class="fragment">Fuerte comunidad, flexible, ampliamente adoptado </li>
+					<li class="fragment">Solamente requiere node.js</li>
+					<li class="fragment">Tiene un enfoque simple: tareas en js, configuracion en JSON</li>
+					<li class="fragment">4,000+ Plugin Contruibuidos</li>
+				</ul>
+				<aside class="notes">
+					Se tuvieron en cuenta otros task lib en js pero grunt era el que tenia los plugins necesarios
+				</aside>
+			</section>
+
+			<section>
+				<h2>Grunt, Genial!</h2>
+				<p>Tutorial en escribir un script en Grunt minificar JavaScript usando la herramienta "uglify"</p>
+				<p><a href="http://gruntjs.com/getting-started">http://gruntjs.com/getting-started</a></p>
+			</section>
+
+			<section>
+				<h2>Drupal Grunt Task</h2>
+				<img src="img/grunt.png" alt="grunt" width="250">
+				<aside class="notes">
+					<ul>
+						<li>plugins de grunt para tareas comunes para contruir y probar Drupal</li>
+					</ul>
+				</aside>
+			</section>
+
+			<section>
+				<h2>Drupal Grunt Task</h2>
+				<img style="background: white" src="img/phase2.png" alt="Phase2" class="fragment">
+				<p class="fragment">
+					<a href="https://github.com/phase2/grunt-drupal-tasks" target="_blank">https://github.com/phase2/grunt-drupal-tasks</a>
+				</p>
+				<p class="fragment">
+					grunt-drupal-task es un conjunto de herramientas que nos ayudan construir y probar (aka Testear) Drupal y otras herramientas comunes en Drupal
+				</p>
+				<aside class="notes">
+					notas
+				</aside>
+			</section>
+
+			<section>
+				<h2>Tiene opiniones</h2>
+				<ol>
+					<li class="fragment">Aplica practicas en todo el equipo y el ambiente de CI (Continuous Integration)</li>
+					<li class="fragment">
+						Asume cierto flujo en el codigo
+						<ol>
+							<li class="fragment">Verificar la calidad del codigo custom</li>
+							<li class="fragment">Acoplar core y contrib con el codigo custom con Drush Make</li>
+							<li class="fragment">Ejecutar pruebas</li>
+						</ol>
+					</li>
+				</ol>
+				<aside class="notes">
+					<p>Como estructurar y hacer el trabajo</p>
+					<p>Todos usando las mismas herramientas en la misma manera</p>
+				</aside>
+			</section>
+			<section>
+				<h2>Reune una serie de herramientas</h2>
+				<p>
+					<img style="background: white" src="/img/herramientas.png" width="600" alt="">
+				</p>
+				<aside class="notes">
+					Utiliza varias herramientas que se han convertido en basicas.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Se queda fuera de tu camino</h2>
+				<ol>
+					<li class="fragment">Todas las tareas se pueden modificar</li>
+					<li class="fragment">Administra sus propias dependencias</li>
+					<li class="fragment">Las herramientas son faciles de usar</li>
+				</ol>
+				<aside class="notes">
+					<ul>
+						<li>Las configuraciones por defecto de pueden modificar por puede que no funciones para todos</li>
+						<li>No me tengo que bajar lo necesario para ejecutar behat</li>
+					</ul>
+				</aside>
+			</section>
+
+
+		</section>
+
+		<section>
+			<section>
+				<h2>Comenzando</h2>
+			</section>
+
+			<section>
+				<h2>Dependencias</h2>
+				<ul>
+					<li class="fragment">
+						Antes de comenzar tenemos que estar seguros que tenemos
+						<ul>
+							<li>
+								node.js (npm)
+							</li>
+						</ul>
+					</li>
+					<li class="fragment">
+						Se recomienda para soportar el resto de herramientas
+						<ul>
+							<li>Bundler, Composer, Ruby y RubyGems</li>
+						</ul>
+					</li>
+					<li class="fragment">
+						Opcional
+							<pre><code data-trim contenteditable>
+								npm install -g generator-gadget grunt-cli yo
+							</code></pre>
+							<pre><code data-trim contenteditable>
+								yo gadget
+							</code></pre>
+					</li>
+				</ul>
+				<aside class="notes">
+					Voy a mostrar a continuacion
+				</aside>
+			</section>
+
+			<section data-background-video="/video/gadget.mov" data-background-color="#000000">
+				<aside class="notes">
+					Primero nos pregunto que version de Drupal queremos y despues instala todas las dependencias para grunt-drupal-task
+				</aside>
+			</section>
+
+			<section>
+				<h2>Estructura del Projecto</h2>
+				<img src="/img/projecto.png" alt="Estructura del projecto" width="500">
+				<aside class="notes">
+					Asumiendo que lo ejecutemos en un projecto vacio esto es lo que veremos
+				</aside>
+			</section>
+
+			<section>
+				<h2>Estructura del Projecto</h2>
+				<img src="/img/projecto_1.png" alt="Estructura del projecto" width="500">
+				<aside class="notes">
+					en estos archivos es donde vive toda la configuracion de nuestro projecto
+				</aside>
+			</section>
+
+			<section>
+				<h2>Estructura del node_modules</h2>
+				<img src="/img/projecto_2.png" alt="Estructura del projecto" width="500">
+				<aside class="notes">
+					Dependencias del projecto y de grunt-drupal-task
+				</aside>
+			</section>
+
+			<section>
+				<h2>Estructura del src/ </h2>
+				<img src="/img/src.png" alt="Estructura del projecto" width="500">
+				<aside class="notes">
+					Custom Drupal code y Drush Make File y hablaremos de este directorio mas adelante
+				</aside>
+			</section>
+
+			<section>
+				<h2>Estructura del test </h2>
+				<img src="/img/test.png" alt="Estructura del projecto" width="500">
+				<aside class="notes">
+					Behat config files y features de behat
+				</aside>
+			</section>
+
+			<section>
+				<h2>Estructura del SRC </h2>
+				<img src="/img/src.png" alt="Estructura del projecto" width="500">
+				<aside class="notes">
+					<ul>
+						<li>Hay un espacio para modules custom, Install Profiles, Drush Make, Sites, Archivos estaticos como el .htacess y el tema</li>
+					</ul>
+				</aside>
+			</section>
+
+			<section>
+				<h2>Objetivos</h2>
+				<ol>
+					<li class="fragment">
+						Acomodar (y aislar) el codigo custom, Drupal Core,  codigo contribuido, archivos de
+						configuracion y herramientas de soporte.
+					</li>
+					<li class="fragment">
+						Permitir a todas la herramientas trabajar en conjunto con el minimo esfuerzo.
+					</li>
+					<li class="fragment">
+						Estandarizar la estructura base de un projecto
+					</li>
+				</ol>
+				<aside class="notes">
+					<p>
+						acomodar no solamente el codigo sino aislarlo. Esto nos permite unir las herramientas con minimo esfuerzo.
+					</p>
+
+					<p>
+						por ejemplo se pueden hacer chequeos de la calidad del codigo unicamente en nuestro codigo
+					</p>
+				</aside>
+
+			</section>
+
+		</section>
+
+		<section>
+			<section>
+				<h2>Construyendo</h2>
+			</section>
+			<section>
+				<h2>Construccion del projecto</h2>
+				<ul>
+					<li class="fragment">
+						Utilizamos grunt para construir el projecto:
+								<pre><code data-trim contenteditable>
+									grunt
+								</code></pre>
+					</li>
+				</ul>
+				<aside class="notes">
+					<p>Una vez tengamos todo configurado pordemos simplemente usar grunt para crear el projecto.</p>
+				</aside>
+			</section>
+			<section>
+				<h2>Pasos de contruccion</h2>
+				<ul>
+					<li class="fragment">Compass / Bundle</li>
+					<li class="fragment">Valida Codigo</li>
+					<li class="fragment">Drush make</li>
+					<li class="fragment">Inserta el codigo custom en el sitio</li>
+					<li class="fragment">Compilar el Tema</li>
+				</ul>
+				<aside class="notes">
+					<p>Esto ejecutas una series de tareas o procesos para contruir nuestro proyecto.</p>
+					<p>Todos los pasos se ejecutan solamente si son necesarios. Por ejemplo si no hay un cambio en el archivo de Drush Make no va a reconstruir el tema</p>
+				</aside>
+			</section>
+			<section data-background-video="/video/grunt.mov" data-background-color="#000000">
+
+			</section>
+
+			<section>
+				<h2>Directorio build/html</h2>
+				<img src="img/output.png" alt="" width="600" class="fragment" >
+				<aside class="notes">
+					<p>Nos genera una carpeta build y dentro de html podemos ver la estructura de un Drupal</p>
+					<p>Ya voveremos a esta carpeta</p>
+				</aside>
+			</section>
+			<section>
+				<h2>Directorio vendor</h2>
+				<img src="img/output_vendor.png" alt="" width="600" class="fragment">
+				<aside class="notes">
+					<p>Todas las librerias decargadas desde packeist.org para ejecutar behat.</p>
+				</aside>
+			</section>
+			<section>
+				<h2>Directorio build/html</h2>
+				<img src="img/build_modules.png" alt="">
+				<aside class="notes">
+					<p>Saben que son Simlinks?</p>
+					<p>Todas nuestros archivos en src estan sincronizados con</p>
+					notes sync link and src
+				</aside>
+			</section>
+			<section>
+				<h2>SymLinks?</h2>
+				<ol>
+					<li class="fragment">No hay necesidada de re-contruir despues de un cambio en el codigo</li>
+					<li class="fragment">La tarea "build" se encarga de que los Symlink esten correctos</li>
+					<li class="fragment">Los link son relativos a la aplicacion</li>
+					<li class="fragment">XDebug funciona con simlinks</li>
+					<li class="fragment">Usuarios de windows: CUIDADO!</li>
+				</ol>
+				<aside class="notes">
+					<p>Es una forma muy simple de sincronizar nuestro codigo con el drupal que se acaba de generar. Los servidores lo leen bien al igual que los IDE</p>
+				</aside>
+			</section>
+			<section>
+				<h2>Se ejecuta automatico</h2>
+				<p>Ejecuta "validate", compila el tema, drush make (si es necesario) cuando un archivo es modificado</p>
+							<pre><code data-trim contenteditable>
+								grunt watch
+							</code></pre>
+			</section>
+			<section data-background-video="/video/grunt_watch.mov" data-background-color="#000000">
+
+			</section>
+			<section>
+				<h2>La forma de construccion</h2>
+				<ol>
+					<li class="fragment">Captura el flujo de trabajo diario</li>
+					<li class="fragment">Produce un sitio completo en Drupal desde codigo custom y un archivo make</li>
+					<li class="fragment">Contruido local, contruir sobre la integracion</li>
+				</ol>
+			</section>
+			<section>
+				<h2>Haslo a tu manera</h2>
+				<ul>
+					<li class="fragment">Las tareas de contruccion puede ser ejecutadas individualmente.</li>
+					<li class="fragment">Demosle un vistaso a las tareas predefinidas.</li>
+				</ul>
+			</section>
+		</section>
+
+		<section>
+			<section>
+				<h2>Validation</h2>
+			</section>
+			<section>
+				<h2>Validando la calidad del codigo</h2>
+				<ol>
+					<li class="fragment">Utiliza lints y analisis de codigo estatico para cuantificar la calidad del codigo</li>
+					<li class="fragment">Podemos ejecutar PHP Lint y PHP Code Sniffer (con los estandares de codigo de Drupal)
+							<pre><code data-trim contenteditable>
+								grunt validate
+							</code></pre>
+					</li>
+				</ol>
+			</section>
+			<section>
+				<h2>PHP Lint</h2>
+				<p class="fragment">Verifica la sintaxis con la herramienta integrada en php</p>
+			</section>
+			<section>
+				<h2>PHP Code Sniffer</h2>
+				<p class="fragment">Verifica el estilo del codigo para que conicida con Drupal Code Standarts</p>
+			</section>
+			<section data-background-video="/video/grunt_validate.mov" data-background-color="#000000">
+
+			</section>
+			<section>
+				<h2>Verifiquemos antes de</h2>
+				<ol>
+					<li class="fragment">Anima a los desarrolladores a validar el codigo antes de subirlo.</li>
+					<li class="fragment">Enfoca la arquitentura en revisiones de codigo.</li>
+					<li class="fragment">Rechazar el deployment o PR bajo ciertos parametros.</li>
+				</ol>
+			</section>
+		</section>
+
+		<section>
+			<section>
+				<h2>Compilando el tema</h2>
+			</section>
+			<section>
+				<h2>Herramientas Front-end</h2>
+				<ol>
+					<li class="fragment">
+						Compass fue una de la primeras herramientas no-PHP comun en la implementacion de Drupal
+					</li>
+					<li class="fragment">Puedes configurar GDT para definir la compilacion de los temas</li>
+					<li class="fragment"><pre><code data-trim contenteditable>
+						grunt compile-theme
+					</code></pre></li>
+				</ol>
+			</section>
+			<section>
+				<h2>Compass</h2>
+				<ul>
+					<li class="fragment">Incluya el archivo Gemfile para instalar y para requerir gemas</li>
+					<li class="fragment">Compass compile es ejecutado durante la construccion del sitio</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Grunt-to-Grunt</h2>
+				<ul>
+					<li class="fragment">Delegar tareas a los temas que estan basados en grunt.</li>
+					<li class="fragment">WIP <span class="fragment">(Work in progress)</span></li>
+				</ul>
+			</section>
+		</section>
+
+		<section>
+			<section>
+				<h2>Testing</h2>
+			</section>
+			<section>
+				<h2>Probando los "features" del sitio</h2>
+				<ul>
+					<li class="fragment">Probar de Behat, Extenciones Drupal y otras dependencias</li>
+					<li class="fragment">Probar el sitio con Behat requiere que Drupal este instalado y accesible por URL</li>
+					<li class="fragment">2 opciones para ejecutar pruebas localmente
+						<ul>
+							<li class="fragment">Usando un ambiente local (Docker,VM, W/MAMP)</li>
+							<li class="fragment">Usando el servidor integrado en PHP/Drush
+							<pre><code data-trim contenteditable>
+								grunt drush:liteinstall
+							</code></pre>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<aside class="notes">
+					crea un archivo sql lite e instala Drupal ahi
+				</aside>
+			</section>
+			<section data-background-video="/video/grunt_install.mov" data-background-color="#000000">
+
+			</section>
+			<section>
+				<h2>Ejecutando las pruebas</h2>
+				<pre><code data-trim contenteditable>
+					grunt test
+				</code></pre>
+			</section>
+			<section data-background-video="/video/grunt_test.mov" data-background-color="#000000">
+
+			</section>
+			<section>
+				<h2>Hacia BDD</h2>
+				<ul>
+					<p class="fragment">
+						GDT suporta el fujo de trabajo de BDD/TDD
+					<ul>
+						<li class="fragment">Primero se escriben las pruebas</li>
+						<li class="fragment">Codido interactua con el feedback de la prueba</li>
+						<li class="fragment">Se puede automatizar mediante la tarea watch</li>
+					</ul>
+					</p>
+					<li class="fragment">Incluye herramientas y scripts de prueba para comenzar a probar</li>
+				</ul>
+			</section>
+		</section>
+
+		<section>
+			<section>
+				<h2>Empaquetamiento y despliegue (Deployment)</h2>
+				<aside class="notes">
+					como se sube a un servidor
+				</aside>
+			</section>
+			<section>
+				<h2>Deployment</h2>
+				<ul>
+					<li class="fragment">Esta hecho para desarrollo local y ambientes de integracion</li>
+					<li class="fragment">Prepara el codigo para el lanzamamiento</li>
+					<li class="fragment">Entrega el codigo a otras herramientas de deployment</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Empaquetamiento</h2>
+				<ul>
+					<li class="fragment">Produce una version aislada, desplegable con Drupal</li>
+					<li class="fragment">Excluye herramientas de soporte y configuracion</li>
+				</ul>
+				<pre class="fragment"><code data-trim contenteditable>
+					grunt package
+				</code></pre>
+			</section>
+			<section data-background-video="/video/grunt_package.mov" data-background-color="#000000">
+
+			</section>
+			<section>
+				<h2>Liberando el codigo</h2>
+				<p class="fragment">Se esta explorando como se pueden soportar processos de liberacion (release)</p>
+				<ol>
+					<li class="fragment">Commit el codigo a un repositorio (Acquia, Pantheon)</li>
+					<li class="fragment">Integrarlo con otras herramientas de release/deployment (Capistrano, ShipIt)</li>
+				</ol>
+			</section>
+		</section>
+
+		<section>
+			<section>
+				<h2>Configurando y extendiendo</h2>
+			</section>
+			<section>
+				<h2>Configuracion</h2>
+				<ul>
+					<li class="fragment">Opciones configurable en Gruntconfig.json
+						<ul>
+							<li class="fragment">
+								La fuente y directorio de contruccion
+							</li>
+							<li class="fragment">Opciones para ejecutar behat</li>
+							<li class="fragment">Argumentos a la ejecucion de Drush Make</li>
+							<li class="fragment">Opciones para la configuracion de los temas</li>
+							<li class="fragment">Incluir / Excluir archivos para el empaquetamiento</li>
+						</ul>
+					</li>
+
+				</ul>
+			</section>
+			<section>
+				<h2>Extendiendo</h2>
+				<p class="fragment">La entension es posible a travez de cambios en Gruntfile.js</p>
+				<ul>
+					<li class="fragment">Agregar nuevas tareas, reemplazar existentes</li>
+					<li class="fragment">Ejecutar un comando de consola como una tarea</li>
+					<li class="fragment">Sobre escribir los pasos por defecto para la construccion del sitio</li>
+				</ul>
+			</section>
+		</section>
+
+		<section>
+			<section>
+				<h2>Para Finalizar</h2>
+			</section>
+			<section>
+				<h2>Pruebalo</h2>
+				<ul>
+					<li class="fragment">Intenta usar Drupal Grunt Task en tu siguiente projecto</li>
+					<li class="fragment">Creat issue en GitHub para compartir como deberia funcionar mejor</li>
+					<li class="fragment">Parches son bienvenidos (a.k.a Pull Request en GitHub)</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Roadmap</h2>
+				<ol>
+					<li class="fragment">Suportar mas herramientas de calidad de codigo (PHPunit Sass/js lint)</li>
+					<li class="fragment">Delegar para temas que hacen uso de grunt</li>
+					<li class="fragment">Mas opciones de releasing/deployment</li>
+					<li class="fragment">Contruir Drupal con composer</li>
+					<li class="fragment">Integracion con Drupal Console</li>
+				</ol>
+			</section>
+		</section>
+
+		<section>
+			<h2>Preguntas?</h2>
+			<p>Codigo Usado para la presentacion <a href="https://github.com/danielnv18/gdt-drupalcamp-cr-2015">https://github.com/danielnv18/gdt-drupalcamp-cr-2015</a></p>
+			<p>Presentacion <a href=""></a></p>
+		</section>
+
+
+	</div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+	// Full list of configuration options available at:
+	// https://github.com/hakimel/reveal.js#configuration
+	Reveal.initialize({
+		controls: true,
+		progress: true,
+		history: true,
+		center: true,
+
+		transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+		// Optional reveal.js plugins
+		dependencies: [
+			{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+			{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+			{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+			{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+			{ src: 'plugin/zoom-js/zoom.js', async: true },
+			{ src: 'plugin/notes/notes.js', async: true }
+		]
+	});
+
+</script>
+
+</body>
+</html>
